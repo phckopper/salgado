@@ -17,6 +17,11 @@ class Image(models.Model):
     viewable = models.BooleanField(default=False)
     last_shown = models.DateTimeField(auto_now_add=True)
 
+    def image_tag(self):
+        return mark_safe('<img src="/directory/%s" width="150" height="150" />' % (self.image))
+
+    image_tag.short_description = 'Image'
+
     def save(self, *args, **kwargs):
         if not self.converted_image:
             self.converted_image = resize_and_convert(self.image)
